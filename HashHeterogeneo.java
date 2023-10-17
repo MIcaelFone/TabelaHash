@@ -1,11 +1,11 @@
 import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class HashHeterogeneo {
     private int maxPosicoes;
     private int maxItens;
     private int quantidadeItensAtual;
     private LinkedList<Aluno>[] estrutura;
-
     Aluno aluno = new Aluno();
 
     public HashHeterogeneo(int tamanhoVetor, int maximoItens) {
@@ -54,17 +54,10 @@ public class HashHeterogeneo {
         try {
             int local = funcaoHash(aluno);
 
-            // Verifica se já existe algum aluno na mesma posição
-            if (estrutura[local].isEmpty()) {
-                estrutura[local].add(aluno);
-            } else {
-                // Tratamento heterogêneo apenas quando há colisão
-                estrutura[local].add(aluno);
-            }
+            estrutura[local].add(aluno);
 
             quantidadeItensAtual++;
 
-            // Verifica e redimensiona a tabela se necessário
             float fatorDeCarga = (float) quantidadeItensAtual / (float) maxPosicoes;
             if (fatorDeCarga >= 0.75) {
                 redimensionarTabela();
@@ -99,20 +92,57 @@ public class HashHeterogeneo {
 
     public void Deletar(Aluno aluno) {
         int local = funcaoHash(aluno);
-        estrutura[local].removeIf(a -> a.getMatricula() == aluno.getMatricula());
-        quantidadeItensAtual--;
+        LinkedList<Aluno> lista = estrutura[local];
+
+        ArrayList<Aluno> alunosRemovidos = new ArrayList<>();
+        lista.removeIf(a -> {
+            if (a.getMatricula() == aluno.getMatricula()) {
+                alunosRemovidos.add(a);
+                return true;
+            }
+            return false;
+        });
+
+        quantidadeItensAtual -= alunosRemovidos.size();
+
+        if (alunosRemovidos.isEmpty()) {
+            System.out.println("Nenhum aluno encontrado com a matrícula " + aluno.getMatricula());
+        } else {
+            System.out.println("Alunos removidos com a matrícula " + aluno.getMatricula() + ":");
+            for (Aluno removido : alunosRemovidos) {
+                System.out.println("Nome: " + removido.getNome() + ", Matrícula: " + removido.getMatricula());
+            }
+        }
     }
 
     public void Buscar(Aluno aluno) {
         int local = funcaoHash(aluno);
+        long startTime = System.nanoTime(); // Captura o tempo inicial
         LinkedList<Aluno> lista = estrutura[local];
+        ArrayList<Aluno> alunosEncontrados = new ArrayList<>();
+
         for (Aluno a : lista) {
             if (a.getMatricula() == aluno.getMatricula()) {
-                System.out.println("Aluno encontrado: " + a.getNome() + " Matrícula: " + a.getMatricula());
-                return;
+                alunosEncontrados.add(a);
             }
         }
-        System.out.println("Aluno não encontrado.");
+
+        long endTime = System.nanoTime(); // Captura o tempo final
+        long elapsedTime = endTime - startTime; // Calcula o tempo gasto em nanossegundos
+
+        // Converte o tempo para milissegundos
+        double milliseconds = (double) elapsedTime / 1_000_000;
+
+        if (alunosEncontrados.isEmpty()) {
+            System.out.println("Nenhum aluno encontrado com a matrícula " + aluno.getMatricula());
+        } else {
+            System.out.println("Alunos encontrados com a matrícula " + aluno.getMatricula() + ":");
+            for (Aluno encontrado : alunosEncontrados) {
+                System.out.println("Nome: " + encontrado.getNome() + ", Matrícula: " + encontrado.getMatricula());
+            }
+        }
+
+        System.out.println("Tempo gasto na busca: " + milliseconds + " ms");
     }
 
     public void Imprimir() {
