@@ -37,47 +37,61 @@ public class Hash {
         this.maxItens = maxItens;
     }
 
-
+//    O método inicializarEstrutura preenche a estrutura com instâncias de alunos vazios
     public void inicializarEstrutura(int tamanhoVetor) {
         for(int i=0;i<tamanhoVetor;i++){
 
             estrutura[i] =aluno.getAlunoVazio();
-
-            
         }
     }
     
     public int funcaoHash(Aluno aluno){
+//        retorna o resto da divisão da matrícula pelo max de posições.
         return aluno.getMatricula() % maxPosicoes;
-        
     }
-    
-
-  
 
     public void Inserir(Aluno aluno) {
-        try{    
-        
+        try {
             int local = funcaoHash(aluno);
-            while(estrutura[local].getMatricula()>0){
-            
-                local = (local+1) % maxPosicoes;
-    
-            }   
-               
-              estrutura[local] = aluno;
-              quantidadeItensAtual++;
-            
-        }catch(NullPointerException e){
-            System.out.println("Não foi possível inserir o aluno");
-    
-            
-             
+            while (estrutura[local].getMatricula() > 0) {
+                local = (local + 1) % maxPosicoes;
+            }
+
+            estrutura[local] = aluno;
+            quantidadeItensAtual++;
+
+            // Verifica e redimensiona a tabela se necessário
+            float fatorDeCarga = (float) quantidadeItensAtual / (float) maxPosicoes;
+            if (fatorDeCarga >= 0.75) {
+                redimensionarTabela();
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Não foi possível inserir o aluno.");
         }
     }
-        
-    
 
+//    Redimensiona a tabela hash quando 0.75 é atingido
+    private void redimensionarTabela() {
+        int novoTamanho = maxPosicoes * 2;
+        Aluno[] novaEstrutura = new Aluno[novoTamanho];
+
+        for (int i = 0; i < maxPosicoes; i++) {
+            novaEstrutura[i] = aluno.getAlunoVazio();
+        }
+
+        for (int i = 0; i < maxPosicoes; i++) {
+            if (estrutura[i].getMatricula() > 0) {
+                int local = funcaoHash(estrutura[i]);
+                while (novaEstrutura[local].getMatricula() > 0) {
+                    local = (local + 1) % novoTamanho;
+                }
+                novaEstrutura[local] = estrutura[i];
+            }
+        }
+
+        estrutura = novaEstrutura;
+        maxPosicoes = novoTamanho;
+    }
 
     public boolean isFull(){
         if(this.quantidadeItensAtual == this.maxItens){
@@ -97,18 +111,12 @@ public class Hash {
                     quantidadeItensAtual--;  
                     estrutura[local] = aluno.getAlunoDeletado();      
                     break;
-                    
-            
             }
                 local=(local+1) % maxPosicoes;
             }
-            
-                
-            
-        }catch(NullPointerException e){
-            System.out.println("Aluno não encontrado");
-                
 
+        } catch(NullPointerException e){
+            System.out.println("Aluno não encontrado");
         }
     }
 
@@ -125,7 +133,6 @@ public class Hash {
         System.out.println("Aluno não encontrado.");
     }
 
-    
     public void Imprimir() {
         System.out.println("Tabela Hash:");
         try{  
@@ -134,13 +141,10 @@ public class Hash {
                      
                     Aluno aluno = estrutura[i];
                     System.out.println("Posição " + i + ": Aluno: " + aluno.getNome() + " Matrícula: " + aluno.getMatricula());
-            
                 }
             }
             }catch(NullPointerException e){
                 System.out.println("Não foi possível imprimir a tabela");
-                
         }
     }
-
 }   
