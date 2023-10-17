@@ -1,4 +1,4 @@
-public class HashTable {
+public class HashHomogeneo {
     private int maxPosicoes;
     private int maxItens;
     private int quantidadeItensAtual;
@@ -6,7 +6,7 @@ public class HashTable {
 
     Aluno aluno = new Aluno();
 
-    public HashTable(int tamanhoVetor, int maximoItens) {
+    public HashHomogeneo(int tamanhoVetor, int maximoItens) {
         this.maxPosicoes = tamanhoVetor;
         this.maxItens = maximoItens;
         this.quantidadeItensAtual = 0;
