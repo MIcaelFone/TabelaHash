@@ -9,7 +9,17 @@ public class Main {
         int maximoItens = input.nextInt();
 
         Hash hash = new Hash(tamanhoVetor, maximoItens);
+        float fator_de_carga = (float) maximoItens/ (float) tamanhoVetor;
+         System.out.println(fator_de_carga);
+         if(fator_de_carga >= 0.75){
 
+             hash.setMaxPosicoes((int) (tamanhoVetor*2));
+        
+
+            
+         }
+
+        
         while (true) {
             System.out.println("--------------------------------------");
             System.out.println("1- Inserir");
@@ -27,20 +37,22 @@ public class Main {
                     System.out.println("Digite a matrícula do aluno:");
                     int matricula = input.nextInt();
                     Aluno aluno = new Aluno(matricula, nome);
-                    hash.inserir(aluno);
+                    hash.Inserir(aluno);
                     break;
                 case 2:
                     System.out.println("Digite a matrícula do aluno:");
-                    int matricula1 = input.nextInt();
-                    hash.deletar(matricula1);
+                    int matricula_deleta = input.nextInt();
+                    Aluno aluno_deleta = new Aluno(matricula_deleta, " ");
+                    hash.Deletar(aluno_deleta);
                     break;
                 case 3:
                     System.out.println("Digite a matrícula do aluno:");
-                    int matricula2 = input.nextInt();
-                    hash.buscar(matricula2);
+                    int matricula_buscada = input.nextInt();
+                    Aluno aluno_buscado = new Aluno(matricula_buscada, " ");
+                    hash.Buscar(aluno_buscado);
                     break;
                 case 4:
-                    hash.imprimir();
+                    hash.Imprimir();
                     break;
                 case 5:
                     System.exit(0);
