@@ -4,8 +4,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         System.out.println("Escolha o tipo de tratamento:");
-        System.out.println("1 - Tratamento com Listas Encadeadas");
-        System.out.println("2 - Tratamento Homogêneo");
+        System.out.println("1 - Tratamento Encadeamento Exterior com listas encadeadas");
+        System.out.println("2 - Tratamento Encadeamento Interior Homogênea");
         int tipoTratamento = input.nextInt();
 
         if (tipoTratamento == 1) {

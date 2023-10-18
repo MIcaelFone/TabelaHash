@@ -2,14 +2,14 @@ import java.util.ArrayList;
 
 
 public class HashHomogeneo {
-    private int maxPosicoes;
+    private int tamanhoVetor;
     private int maxItens;
     private int quantidadeItensAtual;
     private Aluno[] estrutura;
     Aluno aluno = new Aluno();
     
     public HashHomogeneo(int tamanhoVetor, int maximoItens) {
-        this.maxPosicoes = tamanhoVetor;
+        this.tamanhoVetor = tamanhoVetor;
         this.maxItens = maximoItens;
         this.quantidadeItensAtual = 0;
         this.estrutura = new Aluno[tamanhoVetor];
@@ -17,8 +17,8 @@ public class HashHomogeneo {
     }
 
 
-    public int getMaxPosicoes() {
-        return maxPosicoes;
+    public int gettamanhoVetor() {
+        return tamanhoVetor;
     }
 
 
@@ -37,8 +37,8 @@ public class HashHomogeneo {
     }
 
 
-    public void setMaxPosicoes(int maxPosicoes) {
-        this.maxPosicoes = maxPosicoes;
+    public void settamanhoVetor(int tamanhoVetor) {
+        this.tamanhoVetor = tamanhoVetor;
     }
 
 
@@ -57,7 +57,7 @@ public class HashHomogeneo {
 
 
     public int funcaoHash(Aluno aluno) {
-        return aluno.getMatricula() % maxPosicoes;
+        return aluno.getMatricula() % tamanhoVetor;
     }
 
 
@@ -66,9 +66,9 @@ public class HashHomogeneo {
             int posicao = funcaoHash(aluno);
 
             while (estrutura[posicao].getMatricula() >0) {
-                posicao = (posicao + 1) % maxPosicoes; // Próxima posição disponível
+                posicao = (posicao + 1) % tamanhoVetor; // Próxima posição disponível
             }
-            for (int i = 0; i < maxPosicoes; i++) {
+            for (int i = 0; i < tamanhoVetor; i++) {
                 if (estrutura[i].getMatricula() == aluno.getMatricula()) {
                     System.out.println("Matricula já existente");
                     return;
@@ -78,7 +78,7 @@ public class HashHomogeneo {
             estrutura[posicao] = aluno;
             quantidadeItensAtual++;
             // Verifica e redimensiona a tabela se necessário
-            float fatorDeCarga = (float) quantidadeItensAtual / (float) maxPosicoes;
+            float fatorDeCarga = (float) quantidadeItensAtual / (float) tamanhoVetor;
 
             System.out.println("Fator de carga: " + fatorDeCarga);
                 
@@ -96,14 +96,14 @@ public class HashHomogeneo {
 
 
     private void redimensionarTabela() {
-        int novoTamanho = maxPosicoes * 2;
+        int novoTamanho = tamanhoVetor * 2;
         Aluno[] novaEstrutura = new Aluno[novoTamanho];
         Aluno[] copiaEstrutura = estrutura.clone();
 
         for (int i = 0; i < novoTamanho; i++) {
             novaEstrutura[i] = aluno.getAlunoVazio();
         }
-        for (int i = 0; i < maxPosicoes; i++) {
+        for (int i = 0; i < tamanhoVetor; i++) {
             for(Aluno aluno : estrutura){
                 if(aluno.getMatricula() != -1){
                     int local = funcaoHash(aluno); // Corrige a função de hash aqui
@@ -114,7 +114,7 @@ public class HashHomogeneo {
         }
 
         estrutura = novaEstrutura;
-        maxPosicoes = novoTamanho;
+        tamanhoVetor = novoTamanho;
     }
 
 
@@ -128,12 +128,12 @@ public class HashHomogeneo {
 
         while (estrutura[posicao].getMatricula() != -1) {
             if (estrutura[posicao].getMatricula() == aluno.getMatricula()) {
-                System.out.println( " Matrícula: " + estrutura[posicao].getMatricula()+"Aluno deletado: " + estrutura[posicao].getNome() );
+                System.out.println( "Matrícula: " + estrutura[posicao].getMatricula()+"  Aluno deletado:" + estrutura[posicao].getNome() );
                 estrutura[posicao] = aluno.getAlunoDeletado();
                 quantidadeItensAtual--;
                 return;
             }
-            posicao = (posicao + 1) % maxPosicoes;
+            posicao = (posicao + 1) % tamanhoVetor;
         }
         System.out.println("Aluno não encontrado.");
     }
@@ -144,23 +144,17 @@ public class HashHomogeneo {
         long startTime = System.currentTimeMillis(); // Captura o tempo inicial
         int posicao = funcaoHash(aluno);
 
-        ArrayList<Aluno> alunosEncontrados = new ArrayList<>();
+       
 
         while (estrutura[posicao].getMatricula() != -1) {
             if (estrutura[posicao].getMatricula() == aluno.getMatricula()) {
-                alunosEncontrados.add(estrutura[posicao]);
-                System.out.println( " Matrícula: " + estrutura[posicao].getMatricula()+"Aluno encontrado: " + estrutura[posicao].getNome());
+                System.out.println( "Matrícula: " + estrutura[posicao].getMatricula()+" Aluno encontrado: " + estrutura[posicao].getNome());
             }
-            posicao = (posicao + 1) % maxPosicoes;
+            posicao = (posicao + 1) % tamanhoVetor;
+
         }
 
-        if (alunosEncontrados.isEmpty()) {
-            System.out.println("Nenhum aluno encontrado com a matrícula " + aluno.getMatricula());
-        } else {
-            for (Aluno encontrado : alunosEncontrados) {
-                System.out.println( " Matrícula: " + estrutura[posicao].getMatricula()+"Nome: " + encontrado.getNome());
-            }
-        }
+       
 
         long endTime = System.currentTimeMillis(); // Captura o tempo final
         long elapsedTime = endTime - startTime; // Calcula o tempo gasto em nanossegundos
@@ -175,12 +169,11 @@ public class HashHomogeneo {
 
 
     public void Imprimir(){
-        
-        for (int i = 0; i < maxPosicoes; i++) {
-            if (estrutura[i].getMatricula() >0) {
+        System.out.println("Tabela Hash:");        
+        for (int i = 0; i < tamanhoVetor; i++) {
                 System.out.println("Posicao " + i + ": Matrícula: " + estrutura[i].getMatricula()+" ,Nome: " + estrutura[i].getNome());
             }
-        }
+        
     }
         
     
