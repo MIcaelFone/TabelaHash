@@ -5,11 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1619b146-fa32-450b-adbd-40191e4dec93" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/out/production/TabelaHash/HashListasEncadeadas.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HashHeterogeneo.java" beforeDir="false" afterPath="$PROJECT_DIR$/HashListasEncadeadas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aluno.java" beforeDir="false" afterPath="$PROJECT_DIR$/Aluno.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HashHomogeneo.java" beforeDir="false" afterPath="$PROJECT_DIR$/HashHomogeneo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HashListasEncadeadas.java" beforeDir="false" afterPath="$PROJECT_DIR$/HashListasEncadeadas.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TabelaHash/Aluno.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TabelaHash/Aluno.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TabelaHash/HashHeterogeneo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TabelaHash/HashHomogeneo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TabelaHash/HashHomogeneo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TabelaHash/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TabelaHash/Main.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
