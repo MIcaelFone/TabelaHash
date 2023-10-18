@@ -47,9 +47,4 @@ public class Aluno {
         Aluno aluno = (Aluno) o;
         return matricula == aluno.matricula;
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(matricula);
-    }
 }

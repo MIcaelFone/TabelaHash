@@ -91,10 +91,11 @@ public class HashListasEncadeadas {
 
         for (int i = 0; i < tamanhoVetor; i++) {
             for (Aluno aluno : estrutura[i]) {
-                int posicao = funcaoHash(aluno);
-                novaEstrutura[posicao].add(aluno);
+                int posicao = funcaoHash(aluno); // Calcula a nova posição
+                novaEstrutura[posicao].add(aluno); // Adiciona o aluno à nova posição
             }
         }
+
 
         estrutura = novaEstrutura;
         tamanhoVetor = novoTamanho;
