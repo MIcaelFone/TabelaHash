@@ -105,7 +105,7 @@ public class HashHomogeneo {
         }
         for (int i = 0; i < tamanhoVetor; i++) {
             for(Aluno aluno : estrutura){
-                if(aluno.getMatricula() != -1){
+                if(aluno.getMatricula() > 0){
                     int local = funcaoHash(aluno); // Corrige a função de hash aqui
                     novaEstrutura[local]= aluno;
                 }
@@ -122,10 +122,9 @@ public class HashHomogeneo {
         return quantidadeItensAtual == maxItens;
     }
 
-
     public void Deletar(Aluno aluno) {
-        int posicao = funcaoHash(aluno);
-
+        int posicao = funcaoHash(aluno, tamanhoVetor);
+    
         while (estrutura[posicao].getMatricula() != -1) {
             if (estrutura[posicao].getMatricula() == aluno.getMatricula()) {
                 System.out.println( "Matrícula: " + estrutura[posicao].getMatricula()+"  Aluno deletado:" + estrutura[posicao].getNome() );
@@ -137,33 +136,33 @@ public class HashHomogeneo {
         }
         System.out.println("Aluno não encontrado.");
     }
-
-  
-
+    
     public void Buscar(Aluno aluno) {
         long startTime = System.currentTimeMillis(); // Captura o tempo inicial
-        int posicao = funcaoHash(aluno);
-
-       
-     //OR em java simbolo  
+        int posicao = funcaoHash(aluno, tamanhoVetor);
+    
         while (estrutura[posicao].getMatricula() != -1 )  {
-            if (estrutura[posicao].getMatricula() == aluno.getMatricula()) {
+            if (estrutura[posicao].getMatricula() == aluno.getMatricula() ) {
                 System.out.println( "Matrícula: " + estrutura[posicao].getMatricula()+" Aluno encontrado: " + estrutura[posicao].getNome());
+                break;
             }
             posicao = (posicao + 1) % tamanhoVetor;
-
         }
-
-       
-
-        long endTime = System.currentTimeMillis(); // Captura o tempo final
-        long elapsedTime = endTime - startTime; // Calcula o tempo gasto em nanossegundos
-
-        // Converta o tempo para milissegundos
-        
-        System.out.println("Tempo gasto na busca: " + elapsedTime + "ms");
+    
+        if (estrutura[posicao].getMatricula() == aluno.getMatricula()) {
+            long endTime = System.currentTimeMillis(); // Captura o tempo final
+            long elapsedTime = endTime - startTime; // Calcula o tempo gasto em milissegundos
+            System.out.println("Tempo gasto na busca: " + elapsedTime + "ms");
+        } else {
+            System.out.println("Aluno não encontrado.");
+        }
+    }
+    
+    public int funcaoHash(Aluno aluno, int tamanhoVetor) {
+        return aluno.getMatricula() % tamanhoVetor;
     }
 
+   
   
 
 
