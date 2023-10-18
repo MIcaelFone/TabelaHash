@@ -100,15 +100,7 @@ public class HashListasEncadeadas {
         estrutura = novaEstrutura;
         tamanhoVetor = novoTamanho;
     }
-
-    private int contarItens() {
-        int total = 0;
-        for (int i = 0; i < tamanhoVetor; i++) {
-            total += estrutura[i].size();
-        }
-        return total;
-    }
-
+    
     public void Deletar(Aluno aluno) {
         int posicao = funcaoHash(aluno);
         LinkedList<Aluno> lista = estrutura[posicao];
