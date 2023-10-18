@@ -146,7 +146,7 @@ public class HashHomogeneo {
 
        
      //OR em java simbolo  
-        while (estrutura[posicao].getMatricula() != -1  || novaEstrutura[posicao].getMatricula() != -1  )  {
+        while (estrutura[posicao].getMatricula() != -1 )  {
             if (estrutura[posicao].getMatricula() == aluno.getMatricula()) {
                 System.out.println( "Matrícula: " + estrutura[posicao].getMatricula()+" Aluno encontrado: " + estrutura[posicao].getNome());
             }
