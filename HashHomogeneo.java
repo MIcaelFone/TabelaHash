@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-
 public class HashHomogeneo {
     private int tamanhoVetor;
     private int maxItens;
@@ -16,37 +15,29 @@ public class HashHomogeneo {
         inicializarEstrutura(tamanhoVetor);
     }
 
-
     public int gettamanhoVetor() {
         return tamanhoVetor;
     }
-
 
     public int getMaxItens() {
         return maxItens;
     }
 
-
     public int getQuantidadeItensAtual() {
         return quantidadeItensAtual;
     }
-
 
     public void setQuantidadeItensAtual(int quantidadeItensAtual) {
         this.quantidadeItensAtual = quantidadeItensAtual;
     }
 
-
     public void settamanhoVetor(int tamanhoVetor) {
         this.tamanhoVetor = tamanhoVetor;
     }
 
-
     public void setMaxItens(int maxItens) {
         this.maxItens = maxItens;
     }
-
-
 
     public void inicializarEstrutura(int tamanhoVetor) {
         for (int i = 0; i < tamanhoVetor; i++) {
@@ -54,12 +45,9 @@ public class HashHomogeneo {
         }
     }
 
-
-
     public int funcaoHash(Aluno aluno) {
         return aluno.getMatricula() % tamanhoVetor;
     }
-
 
     public void Inserir(Aluno aluno) {
         try {
@@ -85,15 +73,11 @@ public class HashHomogeneo {
             if (fatorDeCarga >= 0.75) {
                 redimensionarTabela();
             }
-            
 
-             
         } catch (NullPointerException e) {
             System.out.println("Não foi possível inserir o aluno.");
         }
     }
-
-
 
     private void redimensionarTabela() {
         int novoTamanho = tamanhoVetor * 2;
@@ -162,24 +146,12 @@ public class HashHomogeneo {
         return aluno.getMatricula() % tamanhoVetor;
     }
 
-   
-  
-
-
-
     public void Imprimir(){
         System.out.println("Tabela Hash:");        
         for (int i = 0; i < tamanhoVetor; i++) {
                 System.out.println("Posicao " + i + ": Matrícula: " + estrutura[i].getMatricula()+" ,Nome: " + estrutura[i].getNome());
             }
-        
     }
-        
-    
-    
-            
-        
-    
 }
 
 
