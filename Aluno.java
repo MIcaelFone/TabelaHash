@@ -39,8 +39,7 @@ public class Aluno {
     public static Aluno getAlunoVazio() {
         return aluno_vazio;
     }
-
-<<<<<<< HEAD
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,6 +47,5 @@ public class Aluno {
         Aluno aluno = (Aluno) o;
         return matricula == aluno.matricula;
     }
-=======
->>>>>>> d0ff26494c9a62fafd9d3618b4590787a6262067
+
 }
