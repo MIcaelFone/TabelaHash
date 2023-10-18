@@ -100,7 +100,7 @@ public class HashHomogeneo {
         while (estrutura[chave].getMatricula() != -1) {
             if (estrutura[chave].getMatricula() == aluno.getMatricula()) {
                 System.out.println("Aluno deletado: " + estrutura[chave].getNome() + " Matrícula: " + estrutura[chave].getMatricula());
-                estrutura[chave] = aluno.getAlunoDeletado(); // Marca como nulo para deletar
+                estrutura[chave] = aluno.getAlunoDeletado();
                 quantidadeItensAtual--;
                 return;
             }
