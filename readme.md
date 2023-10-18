@@ -6,7 +6,7 @@
 <p align="center">2- Abra o projeto em seu ambiente de desenvolvimento Java.</p>
 <p align="center">3- Execute o arquivo Main.java para executar o programa.</p>
 <hr><br>
-<h2 align="center">Como funciona o código?<h2>cc
+<h2 align="center">Como funciona o código?<h2>
 <p align="center">Ao rodar o código, irá aparecer a opção de escolher qual tratamento de colisão você deseja usar:</p>
 <p align="center"><img src="./assets/inicio.png" alt="Menu"></p>
 <p align="center">Após escolher a forma de tratamento, você tem que escolher o tamanho da tabela e depois irá aparecer um menu com as opções disponíveis pra tabela:</p>

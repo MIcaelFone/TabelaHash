@@ -6,7 +6,6 @@ public class HashListasEncadeadas {
     private int maxItens;
     private int quantidadeItensAtual;
     private LinkedList<Aluno>[] estrutura;
-    Aluno aluno = new Aluno();
 
     public HashListasEncadeadas(int tamanhoVetor, int maximoItens) {
         this.tamanhoVetor = tamanhoVetor;
@@ -92,7 +91,7 @@ public class HashListasEncadeadas {
 
         for (int i = 0; i < tamanhoVetor; i++) {
             for (Aluno aluno : estrutura[i]) {
-                int posicao = funcaoHash(aluno); // Corrige a função de hash aqui
+                int posicao = funcaoHash(aluno);
                 novaEstrutura[posicao].add(aluno);
             }
         }
@@ -101,8 +100,12 @@ public class HashListasEncadeadas {
         tamanhoVetor = novoTamanho;
     }
 
-    public boolean isFull() {
-        return quantidadeItensAtual == maxItens;
+    private int contarItens() {
+        int total = 0;
+        for (int i = 0; i < tamanhoVetor; i++) {
+            total += estrutura[i].size();
+        }
+        return total;
     }
 
     public void Deletar(Aluno aluno) {
@@ -147,7 +150,7 @@ public class HashListasEncadeadas {
         } else {
     
             for (Aluno encontrado : alunosEncontrados) {
-                System.out.println("Matrícula:" + encontrado.getMatricula()+"Nome: " + encontrado.getNome() );        
+                System.out.println("Matrícula: " + encontrado.getMatricula()+" / Nome: " + encontrado.getNome() );
              }
         }
 
@@ -160,7 +163,7 @@ public class HashListasEncadeadas {
             LinkedList<Aluno> lista = estrutura[i];
             System.out.print("Posição " + i + " -> ");
             for (Aluno aluno : lista) {
-                System.out.print(" Matrícula: " + aluno.getMatricula() + " Nome: " + aluno.getNome());
+                System.out.print(" Matrícula: " + aluno.getMatricula() + " / Nome: " + aluno.getNome() + ",");
             }
             System.out.println();
         }
