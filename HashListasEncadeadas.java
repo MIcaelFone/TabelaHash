@@ -1,14 +1,14 @@
 import java.util.LinkedList;
 import java.util.ArrayList;
 
-public class HashHeterogeneo {
+public class HashExterno {
     private int maxPosicoes;
     private int maxItens;
     private int quantidadeItensAtual;
     private LinkedList<Aluno>[] estrutura;
     Aluno aluno = new Aluno();
 
-    public HashHeterogeneo(int tamanhoVetor, int maximoItens) {
+    public HashExterno(int tamanhoVetor, int maximoItens) {
         this.maxPosicoes = tamanhoVetor;
         this.maxItens = maximoItens;
         this.quantidadeItensAtual = 0;

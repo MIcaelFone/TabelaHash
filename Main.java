@@ -1,120 +1,160 @@
-import java.util.Scanner;
+import java.util.LinkedList;
+import java.util.ArrayList;
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Escolha o tipo de tratamento:");
-        System.out.println("1 - Tratamento Heterogêneo");
-        System.out.println("2 - Tratamento Homogêneo");
-        int tipoTratamento = input.nextInt();
+public class HashHeterogeneo {
+    private int maxPosicoes;
+    private int maxItens;
+    private int quantidadeItensAtual;
+    private LinkedList<Aluno>[] estrutura;
+    Aluno aluno = new Aluno();
 
-        if (tipoTratamento == 1) {
-            runHeterogeneousTreatment(input);
-        } else if (tipoTratamento == 2) {
-            runHomogeneousTreatment(input);
-        } else {
-            System.out.println("Opção inválida.");
+    public HashHeterogeneo(int tamanhoVetor, int maximoItens) {
+        this.maxPosicoes = tamanhoVetor;
+        this.maxItens = maximoItens;
+        this.quantidadeItensAtual = 0;
+        this.estrutura = new LinkedList[tamanhoVetor];
+        inicializarEstrutura(tamanhoVetor);
+    }
+
+    public int getMaxPosicoes() {
+        return maxPosicoes;
+    }
+
+    public int getMaxItens() {
+        return maxItens;
+    }
+
+    public int getQuantidadeItensAtual() {
+        return quantidadeItensAtual;
+    }
+
+    public void setQuantidadeItensAtual(int quantidadeItensAtual) {
+        this.quantidadeItensAtual = quantidadeItensAtual;
+    }
+
+    public void setMaxPosicoes(int maxPosicoes) {
+        this.maxPosicoes = maxPosicoes;
+    }
+
+    public void setMaxItens(int maxItens) {
+        this.maxItens = maxItens;
+    }
+
+    public void inicializarEstrutura(int tamanhoVetor) {
+        for (int i = 0; i < tamanhoVetor; i++) {
+            estrutura[i] = new LinkedList<Aluno>();
         }
     }
 
-    public static void runHeterogeneousTreatment(Scanner input) {
-        System.out.println("Digite o tamanho da tabela Hash:");
-        int tamanhoVetor = input.nextInt();
-        System.out.println("Digite o tamanho máximo de itens desejados:");
-        int maximoItens = input.nextInt();
+    public int funcaoHash(Aluno aluno) {
+        return aluno.getMatricula() % maxPosicoes;
+    }
 
-        HashHeterogeneo hash = new HashHeterogeneo(tamanhoVetor, maximoItens);
+    public void Inserir(Aluno aluno) {
+        try {
+            int local = funcaoHash(aluno);
 
-        while (true) {
-            System.out.println("--------------------------------------");
-            System.out.println("1- Inserir");
-            System.out.println("2- Deletar");
-            System.out.println("3- Buscar");
-            System.out.println("4- Imprimir");
-            System.out.println("5- Sair");
-            System.out.println("Digite a opção desejada:");
-            int opcao = input.nextInt();
+            // Verifica se o aluno já existe
+            if (!estrutura[local].contains(aluno)) {
+                estrutura[local].add(aluno);
+                quantidadeItensAtual++;
 
-            switch (opcao) {
-                case 1:
-                    System.out.println("Digite um nome de um aluno:");
-                    String nome = input.next();
-                    System.out.println("Digite a matrícula do aluno:");
-                    int matricula = input.nextInt();
-                    Aluno aluno = new Aluno(matricula, nome);
-                    hash.Inserir(aluno);
-                    break;
-                case 2:
-                    System.out.println("Digite a matrícula do aluno:");
-                    int matricula_deleta = input.nextInt();
-                    Aluno aluno_deleta = new Aluno(matricula_deleta, " ");
-                    hash.Deletar(aluno_deleta);
-                    break;
-                case 3:
-                    System.out.println("Digite a matrícula do aluno:");
-                    int matricula_buscada = input.nextInt();
-                    Aluno aluno_buscado = new Aluno(matricula_buscada, " ");
-                    hash.Buscar(aluno_buscado);
-                    break;
-                case 4:
-                    hash.Imprimir();
-                    break;
-                case 5:
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Opção inválida");
+                float fatorDeCarga = (float) quantidadeItensAtual / (float) maxPosicoes;
+                if (fatorDeCarga >= 0.75) {
+                    redimensionarTabela();
+                }
+            } else {
+                System.out.println("Aluno com a mesma matrícula já existe na posição " + local);
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Não foi possível inserir o aluno.");
+        }
+    }
+
+    private void redimensionarTabela() {
+        int novoTamanho = maxPosicoes * 2;
+        LinkedList<Aluno>[] novaEstrutura = new LinkedList[novoTamanho];
+
+        for (int i = 0; i < novoTamanho; i++) {
+            novaEstrutura[i] = new LinkedList<Aluno>();
+        }
+
+        for (int i = 0; i < maxPosicoes; i++) {
+            for (Aluno aluno : estrutura[i]) {
+                int local = funcaoHash(aluno);
+                novaEstrutura[local].add(aluno);
+            }
+        }
+
+        estrutura = novaEstrutura;
+        maxPosicoes = novoTamanho;
+    }
+
+    public boolean isFull() {
+        return quantidadeItensAtual == maxItens;
+    }
+
+    public void Deletar(Aluno aluno) {
+        int local = funcaoHash(aluno);
+        LinkedList<Aluno> lista = estrutura[local];
+
+        ArrayList<Aluno> alunosRemovidos = new ArrayList<>();
+        lista.removeIf(a -> {
+            if (a.getMatricula() == aluno.getMatricula()) {
+                alunosRemovidos.add(a);
+                return true;
+            }
+            return false;
+        });
+
+        quantidadeItensAtual -= alunosRemovidos.size();
+
+        if (alunosRemovidos.isEmpty()) {
+            System.out.println("Nenhum aluno encontrado com a matrícula " + aluno.getMatricula());
+        } else {
+            System.out.println("Alunos removidos com a matrícula " + aluno.getMatricula() + ":");
+            for (Aluno removido : alunosRemovidos) {
+                System.out.println("Nome: " + removido.getNome() + ", Matrícula: " + removido.getMatricula());
             }
         }
     }
 
-    public static void runHomogeneousTreatment(Scanner input) {
-        System.out.println("Digite o tamanho da tabela Hash:");
-        int tamanhoVetor = input.nextInt();
-        System.out.println("Digite o tamanho máximo de itens desejados:");
-        int maximoItens = input.nextInt();
+    public void Buscar(Aluno aluno) {
+        int local = funcaoHash(aluno);
+        long startTime = System.nanoTime(); // Captura o tempo inicial
+        LinkedList<Aluno> lista = estrutura[local];
+        ArrayList<Aluno> alunosEncontrados = new ArrayList<>();
 
-        HashHomogeneo hash = new HashHomogeneo(tamanhoVetor, maximoItens);
+        for (Aluno a : lista) {
+            if (a.getMatricula() == aluno.getMatricula()) {
+                alunosEncontrados.add(a);
+            }
+        }
 
-        while (true) {
-            System.out.println("--------------------------------------");
-            System.out.println("1- Inserir");
-            System.out.println("2- Deletar");
-            System.out.println("3- Buscar");
-            System.out.println("4- Imprimir");
-            System.out.println("5- Sair");
-            System.out.println("Digite a opção desejada:");
-            int opcao = input.nextInt();
+        long endTime = System.nanoTime(); // Captura o tempo final
+        long elapsedTime = endTime - startTime; // Calcula o tempo gasto em nanossegundos
 
-            switch (opcao) {
-                case 1:
-                    System.out.println("Digite um nome de um aluno:");
-                    String nome = input.next();
-                    System.out.println("Digite a matrícula do aluno:");
-                    int matricula = input.nextInt();
-                    Aluno aluno = new Aluno(matricula, nome);
-                    hash.Inserir(aluno);
-                    break;
-                case 2:
-                    System.out.println("Digite a matrícula do aluno:");
-                    int matricula_deleta = input.nextInt();
-                    Aluno aluno_deleta = new Aluno(matricula_deleta, " ");
-                    hash.Deletar(aluno_deleta);
-                    break;
-                case 3:
-                    System.out.println("Digite a matrícula do aluno:");
-                    int matricula_buscada = input.nextInt();
-                    Aluno aluno_buscado = new Aluno(matricula_buscada, " ");
-                    hash.Buscar(aluno_buscado);
-                    break;
-                case 4:
-                    hash.Imprimir();
-                    break;
-                case 5:
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Opção inválida");
+        // Converte o tempo para milissegundos
+        double milliseconds = (double) elapsedTime / 1_000_000;
+
+        if (alunosEncontrados.isEmpty()) {
+            System.out.println("Nenhum aluno encontrado com a matrícula " + aluno.getMatricula());
+        } else {
+            System.out.println("Alunos encontrados com a matrícula " + aluno.getMatricula() + ":");
+            for (Aluno encontrado : alunosEncontrados) {
+                System.out.println("Posição: " + local + " - Matrícula: " + encontrado.getMatricula() + " - Aluno: " + encontrado.getNome());
+            }
+        }
+
+        System.out.println("Tempo gasto na busca: " + milliseconds + " ms");
+    }
+
+    public void Imprimir() {
+        System.out.println("Tabela Hash:");
+        for (int i = 0; i < maxPosicoes; i++) {
+            LinkedList<Aluno> lista = estrutura[i];
+            for (Aluno aluno : lista) {
+                System.out.println("Posição: " + i + " - Matrícula: " + aluno.getMatricula() + " - Aluno: " + aluno.getNome());
             }
         }
     }
